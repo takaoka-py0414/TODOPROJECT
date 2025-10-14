@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4" style="max-width:600px;">
+  <h2 class="mb-4">編集画面</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">保存</button>
+    <a href="{% url 'meal_list' %}" class="btn btn-secondary">戻る</a>
+  </form>
+</div>
+{% endblock content %}

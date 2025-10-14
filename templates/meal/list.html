@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{{ block.super }}
+<div class="alert alert-dark" role="alert">
+  <h1 class="text-center">栄養管理メモ <span class="badge bg-secondary">最新版</span></h1>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container d-flex flex-wrap justify-content-center">
+  {% for item in object_list %}
+  <div class="alert alert-{{ item.priority }}" role="alert" style="min-width:250px; max-width:350px; margin:10px;">
+    <p>{{ item.title }} 入力日:{{ item.duedate }}</p>
+    <div class="card p-2">
+      <div class="d-flex flex-column align-items-stretch">
+        <a class="btn btn-info mb-2 w-100" href="{% url 'meal_update' item.pk %}">編集画面へ</a>
+        <a class="btn btn-success mb-2 w-100" href="{% url 'meal_delete' item.pk %}">削除画面へ</a>
+        <a class="btn btn-primary w-100" href="{% url 'meal_detail' item.pk %}">詳細画面へ</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}
