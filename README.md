@@ -50,8 +50,7 @@
 > 補足: 実際の requirements.txt がある場合はそちらを参照してください。例: Django==4.x, django-crispy-forms 等
 
 ## 外部 API
-- 現状: なし（必要なら Google reCAPTCHA 等を導入可能）
-- 外部 API を使う場合は設定（APIキー等）と利用規約の記載を追加してください。
+- 現状: なし
 
 ## ローカルでの起動手順（開発環境）
 1. プロジェクトルートに移動（manage.py がある場所）
@@ -70,16 +69,7 @@
    python manage.py migrate
    ```
 5. 管理者（またはデモ）ユーザー作成（任意）
-   ```bash
-   python manage.py createsuperuser
-   ```
-   またはシェルでテストユーザーを作成:
-   ```bash
-   python manage.py shell
-   >>> from django.contrib.auth.models import User
-   >>> User.objects.create_user('demo_user','demo@example.com','demo_pass123')
-   >>> exit()
-   ```
+   
 6. 開発サーバ起動
    ```bash
    python manage.py runserver
@@ -89,7 +79,6 @@
 
 ## 備考（開発メモ）
 - テンプレートは templates/ 配下、accounts, meal, products などのフォルダ構成。  
-- 静的ファイルは static/css/style.css を編集して見た目を調整。  
 - マイグレーションに関する問題は `python manage.py showmigrations` で確認。
 
 ## ライセンス
