@@ -1,14 +1,23 @@
 {% extends 'base.html' %}
 
+{% block header %}
+{{ block.super }}
+<div class="alert alert-dark" role="alert">
+  <h2 class="text-center">栄養管理メモ 登録</h2>
+</div>
+{% endblock header %}
+
 {% block content %}
 <div class="container mt-4" style="max-width:600px;">
-  <h2 class="mb-4">編集画面</h2>
   <form method="post" novalidate>
     {% csrf_token %}
     {% if form.non_field_errors %}
-      <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+      <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+      </div>
     {% endif %}
 
+    {# 各フィールドを日本語ラベルで表示 #}
     {% for field in form.visible_fields %}
       <div class="mb-3">
         {% if field.name == 'title' %}
@@ -22,7 +31,7 @@
         {% elif field.name == 'category' %}
           <label for="{{ field.id_for_label }}" class="form-label">カテゴリ</label>
         {% else %}
-          {{ field.label_tag }}
+          {{ field.label_tag }}  {# フォールバック：フォームのラベルをそのまま使う #}
         {% endif %}
 
         {{ field }}
@@ -30,14 +39,15 @@
         {% if field.help_text %}
           <div class="form-text text-muted">{{ field.help_text }}</div>
         {% endif %}
+
         {% for error in field.errors %}
           <div class="text-danger small mt-1">{{ error }}</div>
         {% endfor %}
       </div>
     {% endfor %}
 
-    <div class="d-flex gap-2">
-      <button type="submit" class="btn btn-primary">保存</button>
+    <div class="d-flex gap-2 mt-3">
+      <button type="submit" class="btn btn-primary">登録</button>
       <a href="{% url 'todo:meal_list' %}" class="btn btn-secondary">一覧へ戻る</a>
     </div>
   </form>

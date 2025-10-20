@@ -3,7 +3,7 @@
 {% block header %}
 {{ block.super }}
 <div class="alert alert-dark" role="alert">
-  <h1 class="text-center">栄養管理メモ <span class="badge bg-secondary">最新版</span></h1>
+  <h1 class="text-center">栄養管理メモ</h1>
 </div>
 {% endblock header %}
 
@@ -14,9 +14,9 @@
     <p>{{ item.title }} 入力日:{{ item.duedate }}</p>
     <div class="card p-2">
       <div class="d-flex flex-column align-items-stretch">
-        <a class="btn btn-info mb-2 w-100" href="{% url 'meal_update' item.pk %}">編集画面へ</a>
-        <a class="btn btn-success mb-2 w-100" href="{% url 'meal_delete' item.pk %}">削除画面へ</a>
-        <a class="btn btn-primary w-100" href="{% url 'meal_detail' item.pk %}">詳細画面へ</a>
+        <a class="btn btn-info mb-2 w-100" href="{% url 'todo:meal_update' item.pk %}">編集画面へ</a>
+        <a class="btn btn-success mb-2 w-100" href="{% url 'todo:meal_delete' item.pk %}">削除画面へ</a>
+        <a class="btn btn-primary w-100" href="{% url 'todo:meal_detail' item.pk %}">詳細画面へ</a>
       </div>
     </div>
   </div>

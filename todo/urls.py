@@ -1,8 +1,13 @@
 from django.urls import path
+from django.views.generic import RedirectView
 from . import views
 from django.contrib.auth import views as auth_views
 
+app_name = 'todo'  
+
 urlpatterns = [
+    path('', RedirectView.as_view(pattern_name='list', permanent=False), name='home'),
+
     path('list/', views.TodoList.as_view(), name='list'),
     path('detail/<int:pk>/', views.TodoDetail.as_view(), name='detail'),
     path('create/', views.TodoCreate.as_view(), name='create'),
@@ -10,7 +15,7 @@ urlpatterns = [
     path('update/<int:pk>/', views.TodoUpdate.as_view(), name='update'),
 
     path('top/', views.TopView.as_view(), name='top'),
-    path('signup/', views.SignupView.as_view(), name='signup'), 
+    path('signup/', views.SignupView.as_view(), name='signup'),
     path('select/', views.SelectView.as_view(), name='select'),
     path('mypage/', views.MypageView.as_view(), name='mypage'),
     path('meal-input/', views.MealInputView.as_view(), name='meal_input'),
@@ -33,5 +38,4 @@ urlpatterns = [
 
     path('product/<int:pk>/edit/', views.ProductEditView.as_view(), name='product_edit'),
     path('product/<int:pk>/', views.ProductDetailView.as_view(), name='product_detail'),
-
 ]

@@ -3,11 +3,22 @@
 {% block content %}
 <div class="container mt-4" style="max-width:600px;">
   <h2 class="mb-4">削除画面</h2>
-  <form method="post">
-    {% csrf_token %}
-    <p>本当に削除しますか？</p>
-    <button type="submit" class="btn btn-danger">削除</button>
-    <a href="{% url 'meal_list' %}" class="btn btn-secondary">戻る</a>
-  </form>
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ object.title }}</h5>
+      <p class="card-text">{{ object.memo }}</p>
+      <p class="text-muted">入力日: {{ object.duedate }} / カテゴリ: {{ object.category }}</p>
+
+      <form method="post" class="mt-3">
+        {% csrf_token %}
+        <p class="text-danger">本当にこの項目を削除しますか？</p>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-danger">削除</button>
+          <a href="{% url 'todo:meal_list' %}" class="btn btn-secondary">一覧へ戻る</a>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock content %}

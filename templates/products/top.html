@@ -1,23 +1,71 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block header %}
+{{ block.super }}
+{% endblock header %}
 
 {% block content %}
-<div class="container mt-4" style="max-width:600px;">
-  <table class="table table-bordered text-center align-middle" style="background:white;">
-    <tr>
-      <th colspan="1" class="text-danger" style="font-size:1.2rem;">トップ画面</th>
-    </tr>
-    <tr>
-      <td style="height:60px;">ロゴ/タイトル</td>
-    </tr>
-    <tr>
-      <td>
-        今日の登録メニュー<br>
-        <span>商品１</span><br>
-        <span>商品２</span><br>
-        <span>商品３</span>
-      </td>
-    </tr>
-    <tr>
-      <td style="height:80px;">栄養バランスグラフ</td>
-    </tr>
-    <tr>
+<div class="container mt-0 pt-2">
+  <div class="d-flex flex-column align-items-center gap-3">
+    <a href="{% url 'todo:meal_list' %}" class="card shadow-sm card-link w-100 mx-auto" style="max-width:720px;">
+      <div class="card-body d-flex align-items-start gap-3">
+        <div class="icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
+          <i class="bi bi-list-check"></i>
+        </div>
+        <div>
+          <h5 class="card-title mb-1">メモ一覧</h5>
+          <p class="card-text text-muted mb-0">登録済みの記録を確認・編集・削除できます。</p>
+        </div>
+      </div>
+    </a>
+
+    <a href="{% url 'todo:meal_create' %}" class="card shadow-sm card-link w-100 mx-auto" style="max-width:720px;">
+      <div class="card-body d-flex align-items-start gap-3">
+        <div class="icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center">
+          <i class="bi bi-file-earmark-plus"></i>
+        </div>
+        <div>
+          <h5 class="card-title mb-1">メモの新規登録</h5>
+          <p class="card-text text-muted mb-0">今日の食事や幸福度を気軽に記録しましょう。</p>
+        </div>
+      </div>
+    </a>
+
+    <a href="{% url 'todo:history' %}" class="card shadow-sm card-link w-100 mx-auto" style="max-width:720px;">
+      <div class="card-body d-flex align-items-start gap-3">
+        <div class="icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center">
+          <i class="bi bi-clock-history"></i>
+        </div>
+        <div>
+          <h5 class="card-title mb-1">履歴</h5>
+          <p class="card-text text-muted mb-0">過去の記録を日付ごとに確認できます。</p>
+        </div>
+      </div>
+    </a>
+
+    <a href="{% url 'todo:mypage' %}" class="card shadow-sm card-link w-100 mx-auto" style="max-width:720px;">
+      <div class="card-body d-flex align-items-start gap-3">
+        <div class="icon bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center">
+          <i class="bi bi-person-circle"></i>
+        </div>
+        <div>
+          <h5 class="card-title mb-1">マイページ</h5>
+          <p class="card-text text-muted mb-0">アカウント情報を確認・管理します。</p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="mt-4">
+    <div class="card border-0 shadow-sm mx-auto" style="max-width:720px;">
+      <div class="card-body">
+        <h6 class="mb-2">使い方のヒント</h6>
+        <ul class="mb-0">
+          <li>短いメモを日々記録すると傾向が見えます。</li>
+          <li>「幸福度」を入力して気分の変化も追跡しましょう。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
