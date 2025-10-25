@@ -53,11 +53,15 @@
 
 ## ローカルでの起動手順（開発環境）
 1. プロジェクトルートに移動（manage.py がある場所）
-2. 仮想環境を作成・有効化（例・PowerShell）
-   ```powershell
-   python -m venv .venv
-   .\.venv\Scripts\Activate.ps1
-   ```
+2. # 仮想環境作成・有効化（受講者側）
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+実行ポリシーは一時的に有効化
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process -Force
+
+# 依存関係をインストール
+pip install -r requirements.txt
 3. 依存をインストール（requirements.txt がある場合）
    ```bash
    pip install -r requirements.txt

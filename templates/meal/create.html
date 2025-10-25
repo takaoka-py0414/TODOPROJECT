@@ -34,7 +34,16 @@
           {{ field.label_tag }}  {# フォールバック：フォームのラベルをそのまま使う #}
         {% endif %}
 
-        {{ field }}
+        {# 日付だけ input type="date" を直接出す（ブラウザの date picker を利用） #}
+        {% if field.name == 'duedate' %}
+          <input type="date"
+                 id="{{ field.id_for_label }}"
+                 name="{{ field.html_name }}"
+                 value="{{ field.value|default_if_none:'' }}"
+                 class="form-control">
+        {% else %}
+          {{ field }}
+        {% endif %}
 
         {% if field.help_text %}
           <div class="form-text text-muted">{{ field.help_text }}</div>
