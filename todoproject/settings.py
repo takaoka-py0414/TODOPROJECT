@@ -95,19 +95,22 @@ USE_TZ = True
 
 
 LOGIN_EXEMPT_URLS = [
-    'login',         # /login/
-    'signup',        # /signup/
+    'login',         
+    'signup',        
     'accounts/login',
     'accounts/signup',
-    'static/',       # 静的ファイル
+    'static/',       
     'media/',
     'admin/',
-    '',              # トップページを許可する場合は空文字列を含める
+    '',              
 ]
 
 LOGIN_URL = '/login/'
 
+LOGIN_REDIRECT_URL = '/mypage/'
 
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGOUT_REDIRECT_URL = '/login/'

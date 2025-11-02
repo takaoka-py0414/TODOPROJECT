@@ -95,15 +95,17 @@ class MealDetailView(LoginRequiredMixin, DetailView):
     model = Meal
     template_name = 'meal/detail.html'
 
+    def get_queryset(self):
+        return Meal.objects.filter(user=self.request.user)
+
 class MealCreateView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('todo:login')
     model = Meal
     template_name = 'meal/create.html'
-    fields = '__all__'
+    fields = ['title', 'memo', 'priority', 'duedate', 'category']
     success_url = reverse_lazy('todo:meal_list')
 
     def form_valid(self, form):
-        # 作成時に現在のユーザーをセットして保存
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -111,14 +113,20 @@ class MealUpdateView(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('todo:login')
     model = Meal
     template_name = 'meal/update.html'
-    fields = '__all__'
+    fields = ['title', 'memo', 'priority', 'duedate', 'category']
     success_url = reverse_lazy('todo:meal_list')
+
+    def get_queryset(self):
+        return Meal.objects.filter(user=self.request.user)
 
 class MealDeleteView(LoginRequiredMixin, DeleteView):
     login_url = reverse_lazy('todo:login')
     model = Meal
     template_name = 'meal/delete.html'
     success_url = reverse_lazy('todo:meal_list')
+
+    def get_queryset(self):
+        return Meal.objects.filter(user=self.request.user)
 
 class ProductListView(LoginRequiredMixin, ListView):
     login_url = reverse_lazy('todo:login')

@@ -4,7 +4,7 @@
 <div class="container mt-4" style="max-width:480px;">
   <div class="card shadow-sm">
     <div class="card-body">
-      <h2 class="card-title mb-3">アカウント作成（無料）</h2>
+      <h2 class="card-title mb-3">アカウント作成</h2>
       <p class="text-muted small">ユーザー名とパスワードを入力して登録してください。パスワードは確認のため2回入力します。</p>
 
       <form method="post" novalidate>
@@ -15,10 +15,15 @@
 
         <div class="mb-3">
           <label for="{{ form.username.id_for_label }}" class="form-label">ユーザー名</label>
-          {{ form.username }}
-          {% if form.username.help_text %}
-            <div class="form-text text-muted">ユーザー名（英数字、10文字以内など）</div>
-          {% endif %}
+          <input type="text"
+                 id="{{ form.username.id_for_label }}"
+                 name="{{ form.username.html_name }}"
+                 value="{{ form.username.value|default_if_none:'' }}"
+                 class="form-control"
+                 maxlength="10"
+                 pattern="^[A-Za-z0-9@./+\-_]+$"
+                 title="使用可能な文字：英数字と @ . / + - _">
+          <div class="form-text text-muted">必須。10文字以内。使用可能な文字：英数字と @ . / + - _</div>
           {% for error in form.username.errors %}
             <div class="text-danger small mt-1">{{ error }}</div>
           {% endfor %}
@@ -26,7 +31,11 @@
 
         <div class="mb-3">
           <label for="{{ form.birthdate.id_for_label }}" class="form-label">生年月日（任意）</label>
-          {{ form.birthdate }}
+          <input type="date"
+                 id="{{ form.birthdate.id_for_label }}"
+                 name="{{ form.birthdate.html_name }}"
+                 value="{{ form.birthdate.value|default_if_none:'' }}"
+                 class="form-control">
           {% for error in form.birthdate.errors %}
             <div class="text-danger small mt-1">{{ error }}</div>
           {% endfor %}
@@ -34,7 +43,10 @@
 
         <div class="mb-3">
           <label for="{{ form.password1.id_for_label }}" class="form-label">パスワード</label>
-          {{ form.password1 }}
+          <input type="password"
+                 id="{{ form.password1.id_for_label }}"
+                 name="{{ form.password1.html_name }}"
+                 class="form-control">
           <div class="form-text text-muted">安全なパスワードを設定してください（例: 8文字以上）</div>
           {% for error in form.password1.errors %}
             <div class="text-danger small mt-1">{{ error }}</div>
@@ -43,7 +55,10 @@
 
         <div class="mb-3">
           <label for="{{ form.password2.id_for_label }}" class="form-label">パスワード（確認）</label>
-          {{ form.password2 }}
+          <input type="password"
+                 id="{{ form.password2.id_for_label }}"
+                 name="{{ form.password2.html_name }}"
+                 class="form-control">
           {% for error in form.password2.errors %}
             <div class="text-danger small mt-1">{{ error }}</div>
           {% endfor %}

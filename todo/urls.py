@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 app_name = 'todo'  
 
 urlpatterns = [
-    path('', RedirectView.as_view(pattern_name='list', permanent=False), name='home'),
+    path('', RedirectView.as_view(pattern_name='todo:list', permanent=False), name='home'),
 
     path('list/', views.TodoList.as_view(), name='list'),
     path('detail/<int:pk>/', views.TodoDetail.as_view(), name='detail'),
