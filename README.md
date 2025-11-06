@@ -10,7 +10,7 @@ DEMO_USER_EMAIL=demo@example.com DEMO_USER_PASSWORD=demopassword python manage.p
 ```
 
 ## デモアカウント
-- ユーザー名:  `demo@example.com`
+- ユーザー名:  `demo`
 - パスワード:  `demopassword`   
 
 ## 要件定義
