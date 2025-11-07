@@ -63,7 +63,7 @@ class HistoryView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        qs = Meal.objects.order_by('-duedate')
+        qs = Meal.objects.filter(user=self.request.user).order_by('-duedate')
         grouped = {}
         for m in qs:
             d = m.duedate
