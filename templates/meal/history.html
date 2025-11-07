@@ -4,16 +4,19 @@
 <div class="container">
   <h2>履歴</h2>
   
-  {% if meals %}
-    <ul>
-      {% for meal in meals %}
-        <li>
-          <strong>{{ meal.title }}</strong>
-          {% if meal.duedate %} - {{ meal.duedate }}{% endif %}
-          <a href="{% url 'todo:meal_detail' meal.pk %}">詳細</a>
-        </li>
-      {% endfor %}
-    </ul>
+  {% if history %}
+    {% for date, meals in history %}
+      <h5>{% if date %}{{ date }}{% else %}未設定{% endif %}</h5>
+      <ul>
+        {% for meal in meals %}
+          <li>
+            <strong>{{ meal.title }}</strong>
+            {% if meal.duedate %} - {{ meal.duedate }}{% endif %}
+            <a href="{% url 'todo:meal_detail' meal.pk %}">詳細</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endfor %}
   {% else %}
     <p>履歴がありません。</p>
   {% endif %}
