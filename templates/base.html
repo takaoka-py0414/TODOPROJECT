@@ -35,7 +35,12 @@
               <li class="nav-item d-flex align-items-center me-2">
                 <span class="text-muted">ようこそ {{ user.username }}</span>
               </li>
-              <li class="nav-item"><a class="btn btn-outline-danger btn-sm" href="{% url 'todo:logout' %}">ログアウト</a></li>
+              <li class="nav-item">
+                <form method="post" action="{% url 'todo:logout' %}" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-danger btn-sm">ログアウト</button>
+                </form>
+              </li>
             {% else %}
               <li class="nav-item me-2"><a class="btn btn-outline-primary btn-sm" href="{% url 'todo:login' %}">ログイン</a></li>
               <li class="nav-item"><a class="btn btn-outline-secondary btn-sm" href="{% url 'todo:signup' %}" title="新しいアカウントを作成する">アカウント作成</a></li>

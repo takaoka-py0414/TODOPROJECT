@@ -3,41 +3,47 @@ from django.views.generic import (
     ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView, RedirectView
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.forms import UserCreationForm
-from .models import TodoModel, Meal, Product
 from django.urls import reverse_lazy
 
-class TodoList(RedirectView):
+from .models import TodoModel, Meal, Product
+from .forms import CustomUserCreationForm
+
+class TodoList(LoginRequiredMixin, RedirectView):
+    login_url = reverse_lazy('todo:login')
     pattern_name = 'todo:meal_list'
     permanent = False
 
-class TodoDetail(DetailView):
+class TodoDetail(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy('todo:login')
     template_name = 'detail.html'
     model = TodoModel
 
-class TodoCreate(CreateView):
+class TodoCreate(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('todo:login')
     template_name = 'create.html'
     model = TodoModel
     fields = ('title', 'memo', 'priority', 'duedate')
     success_url = reverse_lazy('todo:list')
 
-class TodoDelete(DeleteView):
+class TodoDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('todo:login')
     template_name = 'delete.html'
     model = TodoModel
     success_url = reverse_lazy('todo:list')
 
-class TodoUpdate(UpdateView):
+class TodoUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('todo:login')
     template_name = 'update.html'
     model = TodoModel
     fields = ('title', 'memo', 'priority', 'duedate')
     success_url = reverse_lazy('todo:list')
 
 class TopView(TemplateView):
-    template_name = 'products/top.html'  
+    template_name = 'products/top.html'
 
 class SignupView(CreateView):
     template_name = 'accounts/signup.html'
-    form_class = UserCreationForm
+    form_class = CustomUserCreationForm
     success_url = reverse_lazy('todo:login')
 
 class SelectView(TemplateView):
@@ -47,10 +53,12 @@ class MypageView(LoginRequiredMixin, TemplateView):
     template_name = 'accounts/mypage.html'
     login_url = reverse_lazy('todo:login')
 
-class MealInputView(TemplateView):
+class MealInputView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('todo:login')
     template_name = 'meal-input.html'
 
-class HistoryView(TemplateView):
+class HistoryView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('todo:login')
     template_name = 'meal/history.html'
 
     def get_context_data(self, **kwargs):
@@ -66,65 +74,90 @@ class HistoryView(TemplateView):
         context['history'] = history
         return context
 
-class MealListView(ListView):
+class MealListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('todo:login')
     model = Meal
     template_name = 'meal/list.html'
 
+    def get_queryset(self):
+        return Meal.objects.filter(user=self.request.user).order_by('-duedate')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        breakfast_list = Meal.objects.filter(category='朝食')
-        lunch_list = Meal.objects.filter(category='昼食')
-        dinner_list = Meal.objects.filter(category='夕食')
-        context['breakfast_list'] = breakfast_list
-        context['lunch_list'] = lunch_list
-        context['dinner_list'] = dinner_list
+        qs = self.get_queryset()
+        context['breakfast_list'] = qs.filter(category='朝食')
+        context['lunch_list'] = qs.filter(category='昼食')
+        context['dinner_list'] = qs.filter(category='夕食')
         return context
 
-class MealDetailView(DetailView):
+class MealDetailView(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy('todo:login')
     model = Meal
     template_name = 'meal/detail.html'
 
-class MealCreateView(CreateView):
+    def get_queryset(self):
+        return Meal.objects.filter(user=self.request.user)
+
+class MealCreateView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('todo:login')
     model = Meal
     template_name = 'meal/create.html'
-    fields = '__all__'
+    fields = ['title', 'memo', 'priority', 'duedate', 'category']
     success_url = reverse_lazy('todo:meal_list')
 
-class MealUpdateView(UpdateView):
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class MealUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('todo:login')
     model = Meal
     template_name = 'meal/update.html'
-    fields = '__all__'
+    fields = ['title', 'memo', 'priority', 'duedate', 'category']
     success_url = reverse_lazy('todo:meal_list')
 
-class MealDeleteView(DeleteView):
+    def get_queryset(self):
+        return Meal.objects.filter(user=self.request.user)
+
+class MealDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('todo:login')
     model = Meal
     template_name = 'meal/delete.html'
     success_url = reverse_lazy('todo:meal_list')
 
-class ProductListView(ListView):
+    def get_queryset(self):
+        return Meal.objects.filter(user=self.request.user)
+
+class ProductListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('todo:login')
     model = Product
     template_name = 'products/list.html'
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy('todo:login')
     model = Product
     template_name = 'products/detail.html'
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('todo:login')
     model = Product
     template_name = 'products/create.html'
     fields = '__all__'
     success_url = reverse_lazy('todo:products_list')
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('todo:login')
     model = Product
     template_name = 'products/update.html'
     fields = '__all__'
     success_url = reverse_lazy('todo:products_list')
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('todo:login')
     model = Product
     template_name = 'products/delete.html'
     success_url = reverse_lazy('todo:products_list')
 
-class ProductEditView(TemplateView):
+class ProductEditView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('todo:login')
     template_name = 'edit.html'

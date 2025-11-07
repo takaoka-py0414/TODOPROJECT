@@ -13,19 +13,27 @@
       <div class="mb-3">
         {% if field.name == 'title' %}
           <label for="{{ field.id_for_label }}" class="form-label">タイトル</label>
+          {{ field }}
         {% elif field.name == 'memo' %}
           <label for="{{ field.id_for_label }}" class="form-label">メモ</label>
+          {{ field }}
         {% elif field.name == 'priority' %}
           <label for="{{ field.id_for_label }}" class="form-label">幸福度</label>
-        {% elif field.name == 'duedate' %}
-          <label for="{{ field.id_for_label }}" class="form-label">日付</label>
+          {{ field }}
         {% elif field.name == 'category' %}
           <label for="{{ field.id_for_label }}" class="form-label">カテゴリ</label>
+          {{ field }}
+        {% elif field.name == 'duedate' %}
+          <label for="{{ field.id_for_label }}" class="form-label">日付</label>
+          <input type="date"
+                 id="{{ field.id_for_label }}"
+                 name="{{ field.html_name }}"
+                 class="form-control"
+                 {% if field.value %}value="{{ field.value|date:'Y-m-d' }}"{% else %}value=""{% endif %}>
         {% else %}
           {{ field.label_tag }}
+          {{ field }}
         {% endif %}
-
-        {{ field }}
 
         {% if field.help_text %}
           <div class="form-text text-muted">{{ field.help_text }}</div>

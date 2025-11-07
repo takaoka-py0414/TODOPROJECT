@@ -13,7 +13,7 @@
       <h5 class="card-title">{{ object.title }}</h5>
       <p class="card-text">{{ object.memo }}</p>
       <p class="card-text">幸福度: {{ object.priority }}</p>
-      <p class="card-text">入力日: {{ object.duedate }}</p>
+      <p class="card-text">入力日: {% if object.duedate %}{{ object.duedate|date:"Y年n月j日" }}{% else %}未設定{% endif %}</p>
       <a href="{% url 'todo:meal_list' %}" class="btn btn-secondary">一覧に戻る</a>
     </div>
   </div>
