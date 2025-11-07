@@ -10,15 +10,22 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-#^%8vrq5)^ir%t2un(la)2bp9bc-xz4=vm)tp&n)=*1rt*)epm'
+# セキュリティ設定
+SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-#^%8vrq5)^ir%t2un(la)2bp9bc-xz4=vm)tp&n)=*1rt*)epm')
 
-DEBUG = True
+# 本番環境ではDEBUGを無効化
+DEBUG = 'RENDER' not in os.environ
 
+# 本番環境のホスト設定
 ALLOWED_HOSTS = []
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
 INSTALLED_APPS = [
@@ -33,6 +40,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -106,6 +114,20 @@ LOGIN_EXEMPT_URLS = [
 ]
 
 LOGIN_URL = '/login/'
+
+# 静的ファイルの設定
+STATIC_URL = '/static/'
+
+# 本番環境での静的ファイル設定
+if not DEBUG:
+    # 静的ファイル収集先
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    
+    # WhiteNoise設定
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# デフォルトの主キーフィールドタイプ
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/mypage/'
 
