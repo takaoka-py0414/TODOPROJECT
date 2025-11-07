@@ -10,3 +10,6 @@ python manage.py collectstatic --no-input
 
 # Apply any outstanding database migrations
 python manage.py migrate
+
+# Create demo user for easy testing (Portfolio purpose)
+python manage.py create_demo_user
